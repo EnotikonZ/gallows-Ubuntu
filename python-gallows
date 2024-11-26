@@ -1,0 +1,34 @@
+import random
+# Список слов для угадывания
+words = ['компьютер', 'программа', 'скрипт', 'функция', 'переменная', 'сиб-тыв-кар', 'чехословакия', 'галлюциноген']
+# Выбираем случайное слово
+word = random.choice(words)
+# Переменные для хранения состояния игры
+word_letters = set(word)  # буквы в слове
+alphabet = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
+used_letters = set()  # угаданные буквы
+lives = 6
+# Функция отображения текущего состояния слова
+def display_word():
+    return ' '.join([letter if letter in used_letters else '_' for letter in word])
+# Цикл игры
+while len(word_letters) > 0 and lives > 0:
+    print(f'У вас осталось {lives} жизней. Использованные буквы: {" ".join(sorted(used_letters))}')
+    print('Слово:', display_word())
+    user_letter = input('Введите букву: ').lower()
+    if user_letter in alphabet - used_letters:
+        used_letters.add(user_letter)
+        if user_letter in word_letters:
+            word_letters.remove(user_letter)
+            print('Верно!\n')
+        else:
+            lives -= 1
+            print('Нет такой буквы.\n')
+    elif user_letter in used_letters:
+        print('Вы уже использовали эту букву.\n')
+    else:
+        print('Неверный ввод. Попробуйте снова.\n')
+if lives == 0:
+    print(f'Вы проиграли. Загаданное слово было: {word}')
+else:
+    print(f'Поздравляем! Вы угадали слово: {word}')
